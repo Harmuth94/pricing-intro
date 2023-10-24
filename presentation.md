@@ -3,11 +3,26 @@ marp: true
 header: 'Pricing in insurance'
 paginate: true
 size: 16:9
+# Declare to use MathJax in this Markdown
+math: mathjax
+
 ---
+
+<style>
+
+  @import "default";
+@import "schema";
+@import "structure";
+:root {
+  font-family: 'CMU Serif';
+  font-weight: initial;
+  --italic-background-color   : rgba(214, 25, 66, 0.144);
+  --italic-background-color   : rgba(255, 86, 8, 0.185);
+}
+</style>
 
 # Pricing in insurance
 ## Intro to insurance pricing (and insurance in general)
-
 
 ---
 
@@ -107,10 +122,11 @@ So when is an insurance agreement reached?
 The insured is risk averse, i.e. the utility of the insured is concave. This means that the insured is willing to pay a risk premium to avoid the risk of a large loss.
 In other words
 $$
-u(w-G) = \mathbb{E}[u(w-X)] \leq u(w - \mathbb{E}[X]) \implies  
-$$
-$$
-w-G \leq w-\mu \implies G \geq \mu
+\begin{align}
+u(w-G) &= \mathbb{E}[u(w-X)] \leq u(w - \mathbb{E}[X]) \implies  
+\\
+w-G &\leq w-\mu \implies G \geq \mu
+\end{align}
 $$
 as a result from Jensen's inequality, where $u$ is the utility function of the insured, $G$ is the premium willing to pay and $\mu$ is the expected value of the loss.
 
@@ -122,10 +138,11 @@ The insurer is also risk averse with a utility function $u_I$ and wealth $w_I$ (
 H is the premium charged to the insured and X is the loss.
 
 $$
-u_I(w_I) = \mathbb{E}[u_I(w_I + H - X)] \leq u_I(w_I + H - \mathbb{E}[X]) \implies
-$$
-$$
-w_I \leq w_I + H - \mu \implies H \geq \mu
+\begin{align}
+u_I(w_I) &= \mathbb{E}[u_I(w_I + H - X)] \leq u_I(w_I + H - \mathbb{E}[X]) \implies
+\\
+w_I &\leq w_I + H - \mu \implies H \geq \mu
+\end{align}
 $$
 
 As a result when $G\geq H$, the insurance agreement is reached as the insured has a higher utility and the insurer has a higher wealth with unchanged utility.
@@ -176,10 +193,11 @@ g(\mu) = \log(\mu)
 $$
 This means that
 $$
-\log(\mathbb{E}[Y|X]) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_p x_p \implies
-$$
-$$
-\mathbb{E}[Y|X] = \text{e}^{\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_p x_p} = \prod_{i=0}^p \text{e}^{\beta_i x_i}
+\begin{align}
+\log(\mathbb{E}[Y|X]) &= \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_p x_p \implies
+\\
+\mathbb{E}[Y|X] &= \text{e}^{\beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_p x_p} = \prod_{i=0}^p \text{e}^{\beta_i x_i}
+\end{align}
 $$
 with $x_0 = 1$.
 
@@ -198,13 +216,13 @@ $$
 
 Using GLMs with log-link function we get
 $$
-\mathbb{E}[X] = \text{e}^{\beta_0^s + \beta_1^s x_1 + \beta_2^s x_2 + \dots + \beta_p^s x_p}\text{e}^{\beta_0^n + \beta_1^n x_1 + \beta_2^n x_2 + \dots + \beta_p^n x_p}
-$$
-$$
-\hskip0.5em=\text{e}^{\beta_0^s+\beta_0^n + (\beta_1^s+\beta_1^n) x_1 + (\beta_2^s+\beta_2^s) x_2 + \dots + (\beta_p^s+\beta_p^n) x_p}
-$$
-$$
-=\prod_{i=0}^p \text{e}^{(\beta_i^s+\beta_i^n) x_i}=\prod_{i=0}^p \text{e}^{\beta_i x_i}\qquad\qquad\quad
+\begin{align}
+\mathbb{E}[X] &= \text{e}^{\beta_0^s + \beta_1^s x_1 + \beta_2^s x_2 + \dots + \beta_p^s x_p}\text{e}^{\beta_0^n + \beta_1^n x_1 + \beta_2^n x_2 + \dots + \beta_p^n x_p}
+\\
+&=\text{e}^{\beta_0^s+\beta_0^n + (\beta_1^s+\beta_1^n) x_1 + (\beta_2^s+\beta_2^s) x_2 + \dots + (\beta_p^s+\beta_p^n) x_p}
+\\
+&=\prod_{i=0}^p \text{e}^{(\beta_i^s+\beta_i^n) x_i}=\prod_{i=0}^p \text{e}^{\beta_i x_i}
+\end{align}
 $$
 
 $\text{e}^{\beta_i x_i}$ can be interpreted as the relative risk of the policy holder with the characteristics $x_i$ compared to the base policy holder with $x_i = 0$ or "risk factor".
@@ -330,3 +348,69 @@ What algorithms (can) use decision trees? Gradient boosting!
 *Using restricted gradient boosting algorithm to directly optimize the rating table without loss of interpretability.*
 
 ## Decision trees
+<style>
+img {
+    
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 60%;
+    width: 400px;
+}
+</style>
+Well actually regression trees..
+![](regression_tree.png)
+
+## Gradient Tree Boosting
+Ensemble method of trees
+$
+f(x) = \sum_{i=1}^n f_i(x)
+$
+where $f_i$ is a tree.
+
+---
+
+# Boosting
+Training on residuals. Let $y$ be the dependent variable and $f$ be the model. Then the predictions at step $t$ are $y_{i}^{(t)}$ with $y_i^{(0)} = 0$.
+$$
+\begin{align}
+y_{i}^{(0)} &= 0 \\
+y_{i}^{(1)} &= f_1(x_i) = y_i^{(0)} + f_1(x_i) \\
+y_{i}^{(2)} &= f_1(x_i) + f_2(x_i) = y_i^{(1)} + f_2(x_i) \\
+&\dots \\
+y_{i}^{(t)} &=\sum_{k=1}^t f_k(x_i) = y_i^{(t-1)} + f_{t}(x_i)
+\implies
+y_{i}^{(t)} - y_{i}^{(t-1)} = f_{t}(x_i)
+\end{align}
+$$
+At each step are training on the negative gradient of the loss function.
+*Essentially* training on the residuals of the previous step to correct predictions.
+
+---
+
+# How this solves the problem
+Gradient boosting frameworks like XGBoost and LightGBM have option for
+
+* Monotonicity constraints
+* Restrictions on the number of features used in each tree (limit interactions)
+* Common insurance distribution as loss functions (including log-linking)
+
+The log-link transforms $f(x)$ to 
+$$
+\begin{align}
+\log(f(x)) &= \sum_{i=1}^n f_i(x) \implies\\
+f(x) &= \prod_{i=1}^n \exp(f_i(x))
+\end{align}
+$$
+For each tree we can extract the splits and use them as the rating table buckets.
+
+---
+
+# Other subjects
+* Demand elasticity and optimization of the price
+* Risk selection bias
+* When is profit realized? Reserving, IBNR, run-off triangles..
+* Cross-product risk and pricing
+* Fairness and ethics
+* Risk of new customers vs existing customers
+* Modelling life time value of customers
