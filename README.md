@@ -1,2 +1,3 @@
-# pricing-intro
-Pricing in insurance
+# Presentation on pricing in insurance
+## Disclaimer
+This presentation is based on my education in Actuarial Mathematics and my experience in the insurance industry. It is not meant to be a complete guide to pricing in insurance, but rather a brief overview of the main concepts and my passion topics. Liberties have been taken w.r.t. formulas and definitions to make the presentation more accessible to a general audience. I hope you find it useful.
